@@ -1,23 +1,41 @@
 ﻿using System;
 using System.IO;
-using ClientPlugin.GUI;
+using Rdr2ThemedMenus.GUI;
 using HarmonyLib;
 using Sandbox.Graphics.GUI;
-using ClientPlugin.Config;
-using ClientPlugin.Logging;
-using ClientPlugin.Patches;
+using Rdr2ThemedMenus.Config;
+using Rdr2ThemedMenus.Logging;
+using Rdr2ThemedMenus.Patches;
 using VRage.FileSystem;
 using VRage.Plugins;
+using Sandbox.Game;
+using Rdr2ThemedMenus.GUI.MainMenuScreens;
+using Sandbox.Definitions;
+using VRage.Audio;
+using System.Linq;
+using VRage.Collections;
+using VRage.Data.Audio;
+using System.Collections.Generic;
+using VRage.Game;
+using VRage.ObjectBuilders;
+using Rdr2ThemedMenus.Patches.DefinitionManager;
+using Sandbox.Engine.Utils;
+using VRage;
+using Sandbox;
+using Sandbox.Game.GUI;
+using VRage.UserInterface.Media;
 
-namespace ClientPlugin
+namespace Rdr2ThemedMenus
 {
     // ReSharper disable once UnusedType.Global
     public class Plugin : IPlugin, IDisposable
     {
-        public const string Name = "PluginTemplate";
+        public const string Name = "Rdr2ThemedMenus";
         public static Plugin Instance { get; private set; }
 
         public long Tick { get; private set; }
+
+        public readonly string ContentDirectory = Path.Combine(MyFileSystem.ContentPath, "RDR2ThemedMenus");
 
         public IPluginLogger Log => Logger;
         private static readonly IPluginLogger Logger = new PluginLogger(Name);
@@ -36,7 +54,12 @@ namespace ClientPlugin
 
             Log.Info("Loading");
 
-            var configPath = Path.Combine(MyFileSystem.UserDataPath, ConfigFileName);
+            if (Directory.Exists(Path.Combine(MyFileSystem.UserDataPath, "Storage/PluginData")));
+            {
+                Directory.CreateDirectory(Path.Combine(MyFileSystem.UserDataPath, "Storage/PluginData"));
+            }
+
+            var configPath = Path.Combine(MyFileSystem.UserDataPath, "Storage/PluginData", ConfigFileName);
             config = PersistentConfig<PluginConfig>.Load(Log, configPath);
 
             if (!PatchHelpers.HarmonyPatchAll(Log, new Harmony(Name)))
@@ -104,7 +127,13 @@ namespace ClientPlugin
 
         private void Initialize()
         {
-            // TODO: Put your one time initialization code here. It is executed on first update, not on loading the plugin.
+            List<string> files = new List<string>();
+            files.Add(Path.Combine(Plugin.Instance.ContentDirectory, @"Data\GuiSounds.xml"));
+            InjectCustomDefinitions(files);
+            MyPerGameSettings.GUI.MainMenu = typeof(RDR2MainMenu);
+            MyPerGameSettings.BasicGameInfo.GameName = "Red Dead Redemption 2";
+            MyPerGameSettings.BasicGameInfo.ApplicationName = "Red Dead Redemption 2";
+            MyPerGameSettings.BasicGameInfo.GameAcronym = "RDR2";
         }
 
         private void CustomUpdate()
@@ -117,6 +146,26 @@ namespace ClientPlugin
         public void OpenConfigDialog()
         {
             MyGuiSandbox.AddScreen(new MyPluginConfigDialog());
+        }
+
+        private void InjectCustomDefinitions(List<string> files)
+        {
+            List<Tuple<MyObjectBuilder_Definitions, string>> customDefinitions = new List<Tuple<MyObjectBuilder_Definitions, string>>();
+
+            foreach (string definitionFile in files)
+            {
+                MyObjectBuilder_Definitions definitions;
+
+                MyObjectBuilderSerializer.DeserializeXML(definitionFile, out definitions);
+
+                Tuple<MyObjectBuilder_Definitions, string> definitionList = new Tuple<MyObjectBuilder_Definitions, string>(definitions, definitionFile);
+
+                customDefinitions.Add(definitionList);
+            }
+
+            MyDefinitionManager_Injections.CustomDefinitions = customDefinitions;
+            MyDefinitionManager.Static.PreloadDefinitions();
+            MyAudio.ReloadData(PluginAudioExtensions.GetSoundDataFromDefinitions(), PluginAudioExtensions.GetEffectData());
         }
     }
 }

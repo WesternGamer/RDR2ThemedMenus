@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace ClientPlugin.Config
+namespace Rdr2ThemedMenus.Config
 {
     public interface IPluginConfig: INotifyPropertyChanged
     {

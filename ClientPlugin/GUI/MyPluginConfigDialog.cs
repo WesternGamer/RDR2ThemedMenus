@@ -6,12 +6,12 @@ using VRage;
 using VRage.Utils;
 using VRageMath;
 
-namespace ClientPlugin.GUI
+namespace Rdr2ThemedMenus.GUI
 {
 
     public class MyPluginConfigDialog : MyGuiScreenBase
     {
-        private const string Caption = "PluginTemplate Configuration";
+        private const string Caption = "Rdr2ThemedMenus Configuration";
         public override string GetFriendlyName() => "MyPluginConfigDialog";
 
         private MyLayoutTable layoutTable;

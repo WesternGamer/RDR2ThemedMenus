@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A061FC6C-713E-42CD-B413-151AC8A5074C}</ProjectGuid>
+    <ProjectGuid>{B80B0DCA-5071-4F54-9765-C628ECBAF3BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClientPlugin</RootNamespace>
-    <AssemblyName>PluginTemplate</AssemblyName>
+    <RootNamespace>Rdr2ThemedMenus</RootNamespace>
+    <AssemblyName>Rdr2ThemedMenus</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>
@@ -524,12 +524,26 @@
     <Compile Include="Config\IPluginConfig.cs" />
     <Compile Include="Config\PersistentConfig.cs" />
     <Compile Include="Config\PluginConfig.cs" />
+    <Compile Include="GUI\GameSelectionMenus\RDR2GameSelectionMenu.cs" />
+    <Compile Include="GUI\GuiControls\Button.cs" />
+    <Compile Include="GUI\GuiControls\ButtonPrompt.cs" />
+    <Compile Include="GUI\GuiControls\ImageButton.cs" />
+    <Compile Include="GUI\MainMenuScreens\MainMenuVideoPlayer.cs" />
+    <Compile Include="GUI\MainMenuScreens\RDR2MainMenu.cs" />
     <Compile Include="GUI\MyPluginConfigDialog.cs" />
+    <Compile Include="GUI\CustomGuiTools.cs" />
+    <Compile Include="GUI\RDR2ButtonsMenuBase.cs" />
     <Compile Include="Logging\IPluginLogger.cs" />
     <Compile Include="Logging\LogFormatter.cs" />
     <Compile Include="Logging\PluginLogger.cs" />
+    <Compile Include="Patches\DefinitionManager\MyDefinitionManager_InitSounds_Patch.cs" />
+    <Compile Include="Patches\DefinitionManager\MySession_Unload_Patch.cs" />
+    <Compile Include="Patches\DefinitionManager\MyDefinitionManager_Injections.cs" />
+    <Compile Include="Patches\MySandboxGame_ShowIntroMessages_Patch.cs" />
     <Compile Include="Patches\PatchHelpers.cs" />
     <Compile Include="Plugin.cs" />
+    <Compile Include="PluginAudioExtensions.cs" />
+    <Compile Include="PluginCompatibility\PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -540,6 +554,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GUI\OptionsMenus\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

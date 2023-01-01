@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using System.IO;
 using System.Threading;
-using ClientPlugin.Logging;
+using Rdr2ThemedMenus.Logging;
 
-namespace ClientPlugin.Config
+namespace Rdr2ThemedMenus.Config
 {
     // Ported from Torch's Persistent<T> class for compatibility of configuration files between targets and to work with IPluginLogger.
     // Simple class that manages saving <see cref="P:Torch.Persistent`1.Data" /> to disk using XML serialization.

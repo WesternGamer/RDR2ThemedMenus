@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using ClientPlugin.Logging;
+using Rdr2ThemedMenus.Logging;
 
-namespace ClientPlugin.Patches
+namespace Rdr2ThemedMenus.Patches
 {
     // ReSharper disable once UnusedType.Global
     public static class PatchHelpers

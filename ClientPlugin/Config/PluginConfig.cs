@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 #if !TORCH
 
-namespace ClientPlugin.Config
+namespace Rdr2ThemedMenus.Config
 {
     public class PluginConfig: IPluginConfig
     {

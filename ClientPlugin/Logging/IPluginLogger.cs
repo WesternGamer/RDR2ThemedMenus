@@ -1,6 +1,6 @@
 using System;
 
-namespace ClientPlugin.Logging
+namespace Rdr2ThemedMenus.Logging
 {
     public interface IPluginLogger
     {
